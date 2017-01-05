@@ -116,3 +116,63 @@ error emit(stack_t *stack)
 
     return throw_er(ER_SUCCESS, "ER: No error");
 }
+
+error addw(stack_t *stack)
+{
+    int a, b;
+    if (pop(stack, &a).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    if (pop(stack, &b).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    int c = b + a;
+    push(stack, &c);
+
+    return throw_er(ER_SUCCESS, "ER: No error");
+}
+
+error subw(stack_t *stack)
+{
+    int a, b;
+    if (pop(stack, &a).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    if (pop(stack, &b).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    int c = b - a;
+    push(stack, &c);
+
+    return throw_er(ER_SUCCESS, "ER: No error");
+}
+    
+error mulw(stack_t *stack)
+{
+    int a, b;
+    if (pop(stack, &a).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    if (pop(stack, &b).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    int c = b * a;
+    push(stack, &c);
+
+    return throw_er(ER_SUCCESS, "ER: No error");
+}
+
+error divw(stack_t *stack)
+{
+    int a, b;
+    if (pop(stack, &a).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    if (pop(stack, &b).code) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    int c = b / a;
+    push(stack, &c);
+
+    return throw_er(ER_SUCCESS, "ER: No error");
+}

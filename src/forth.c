@@ -10,16 +10,24 @@
 
 error fill_dict(dict_t *dict)
 {
-    fword_t *fwords = malloc(3 * sizeof(fword_t));
+    fword_t *fwords = malloc(8 * sizeof(fword_t));
     if (fwords == NULL) {
         return throw_er(ER_MALLOC_FAIL, "ER: Failed dict malloc in fill_dict");
     }
     fwords[0] = (fword_t) {.stkdef = show_stack, .type = STK};
     fwords[1] = (fword_t) {.stkdef = emit, .type = STK};
     fwords[2] = (fword_t) {.defdef = def, .type = DEF};
+    fwords[3] = (fword_t) {.stkdef = addw, .type = STK};
+    fwords[4] = (fword_t) {.stkdef = subw, .type = STK};
+    fwords[5] = (fword_t) {.stkdef = mulw, .type = STK};
+    fwords[6] = (fword_t) {.stkdef = divw, .type = STK};
     add_primitive(dict, fwords[0], ".s");
     add_primitive(dict, fwords[1], "emit");
     add_primitive(dict, fwords[2], ":");
+    add_primitive(dict, fwords[3], "+");
+    add_primitive(dict, fwords[4], "-");
+    add_primitive(dict, fwords[5], "*");
+    add_primitive(dict, fwords[6], "/");
     free(fwords);
 
     return throw_er(ER_SUCCESS, "ER: No error");
