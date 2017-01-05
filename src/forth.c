@@ -10,7 +10,7 @@
 
 error fill_dict(dict_t *dict)
 {
-    fword_t *fwords = malloc(8 * sizeof(fword_t));
+    fword_t *fwords = malloc(9 * sizeof(fword_t));
     if (fwords == NULL) {
         return throw_er(ER_MALLOC_FAIL, "ER: Failed dict malloc in fill_dict");
     }
@@ -21,6 +21,8 @@ error fill_dict(dict_t *dict)
     fwords[4] = (fword_t) {.stkdef = subw, .type = STK};
     fwords[5] = (fword_t) {.stkdef = mulw, .type = STK};
     fwords[6] = (fword_t) {.stkdef = divw, .type = STK};
+    fwords[7] = (fword_t) {.stkdef = eqw,  .type = STK};
+    fwords[8] = (fword_t) {.stkdef = gtw,  .type = STK};
     add_primitive(dict, fwords[0], ".s");
     add_primitive(dict, fwords[1], "emit");
     add_primitive(dict, fwords[2], ":");
@@ -28,6 +30,8 @@ error fill_dict(dict_t *dict)
     add_primitive(dict, fwords[4], "-");
     add_primitive(dict, fwords[5], "*");
     add_primitive(dict, fwords[6], "/");
+    add_primitive(dict, fwords[7], "=");
+    add_primitive(dict, fwords[8], ">");
     free(fwords);
 
     return throw_er(ER_SUCCESS, "ER: No error");
