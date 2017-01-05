@@ -100,7 +100,7 @@ error interpret(char *line, stack_t *the_stack, ssize_t len, dict_t *word_dict)
                             fail = (*(words->fwords[i]).stkdef)(the_stack);
                             break;
                         case DEF:
-                            fail = (*(words->fwords[i]).defdef)(token, word_dict);
+                            fail = (*(words->fwords[i]).defdef)(&token, word_dict);
                             break;
                         case PSH:
                             fail = (*(words->fwords[i]).psh)(the_stack, words->fwords[i].val);

@@ -8,8 +8,10 @@
 
 // Include error reporting for all of these
 // def doesnt follow DRY very well, it just reimplements interpret
-error def(char *line, dict_t *dict)
+error def(char **line_adr, dict_t *dict)
 {
+    // What the hell is going on here with the strings???
+    char *line = *line_adr;
     fwordseq_t *new_words; // The dict lookup sets this ptr, no init
     fwordseq_t *def = malloc(sizeof(fwordseq_t));
     char *initial_line = malloc(sizeof(char) * (strlen(line) + 1));
