@@ -7,7 +7,7 @@
 struct dict_t;
 typedef struct dict_t dict_t;
 
-typedef error (*def_word)(char*, dict_t*);
+typedef error (*def_word)(char**, dict_t*);
 typedef error (*stk_word)(stack_t*);
 typedef error (*psh_word)(stack_t*, void*);
 typedef enum {STK, PSH, DEF} word_type_t;
