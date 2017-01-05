@@ -4,10 +4,10 @@
 #include "words.h"
 #include "structs/stack.h"
 #include "structs/dict.h"
+#include "util/error.h"
 
 // Include error reporting for all of these
 // def doesnt follow DRY very well, it just reimplements interpret
-// FUCK STRTOK, use strdup and stuff instead?
 error def(char *line, dict_t *dict)
 {
     fwordseq_t *new_words; // The dict lookup sets this ptr, no init
@@ -23,7 +23,7 @@ error def(char *line, dict_t *dict)
     line = strtok(NULL, " ");
 
     if (name == NULL || def == NULL || def->fwords == NULL) {
-        return ER_MALLOC_FAIL;
+        return throw_er(ER_MALLOC_FAIL, "Malloc failed on line __LINE__");
     }
 
     do {
@@ -31,7 +31,7 @@ error def(char *line, dict_t *dict)
         // Note that this needs so many features added
         // fuck this block
         // this should be fixed in some sane way
-        // i really fucking hate strtok(?)
+        // i really hate strtok(?)
         if (line == NULL) {
             // This reimplements main, fix later for DRY
             size_t size = 0;
@@ -41,25 +41,25 @@ error def(char *line, dict_t *dict)
             len = getline(line_ptr, &size, stdin); // fix to use any input
             printf("\n==> Newline: %s\n", *line_ptr);
             if (len == -1) {
+                return throw_er(ER_IO_FAIL, "ER: Unexpected end line");
             }
-                return ER_IO_FAIL;
             free(initial_line);
             line = malloc((len + 1) * sizeof(char));
             initial_line = line;
             if (line == NULL) {
-                return ER_MALLOC_FAIL;
+                return throw_er(ER_MALLOC_FAIL, "ER: Malloc failed on line __LINE__");
             }
             strcpy(line, *line_ptr);
             free(*line_ptr);
             free(line_ptr);
             line = strtok(line, " ");
         }
-        else if (!lookup(dict, line, &new_words)) {
+        else if (!lookup(dict, line, &new_words).code) {
             size_t initial_size = def->num_words;
             def->num_words += new_words->num_words;
             fword_t *tmp = realloc(def->fwords, def->num_words * sizeof(fword_t));
             if (tmp == NULL) {
-                return ER_MALLOC_FAIL;
+                return throw_er(ER_MALLOC_FAIL, "ER: Malloc failed on line __LINE__");
             }
             else {
                 def->fwords = tmp;
@@ -73,7 +73,7 @@ error def(char *line, dict_t *dict)
             *val = (int) strtol(line, &end, 0);
             fword_t *tmp = realloc(def->fwords, (def->num_words + 1) * sizeof(fword_t));
             if (tmp == NULL || val == NULL) {
-                return ER_MALLOC_FAIL;
+                return throw_er(ER_MALLOC_FAIL, "ER: Malloc failed on line __LINE__");
             }
             else {
                 def->fwords = tmp;
@@ -92,7 +92,7 @@ error def(char *line, dict_t *dict)
     free(def->fwords);
     free(def);
 
-    return ER_SUCCESS;
+    return throw_er(ER_SUCCESS, "ER: No error");
 }
 
 error show_stack(stack_t *stack)
@@ -103,16 +103,16 @@ error show_stack(stack_t *stack)
     }
     putchar('\n');
 
-    return ER_SUCCESS;
+    return throw_er(ER_SUCCESS, "ER: No error");
 }
 
 error emit(stack_t *stack)
 {
     int top;
-    if (pop(stack, &top) != ER_SUCCESS) {
-        return ER_OUT_OF_BOUNDS;
+    if (pop(stack, &top).code != ER_SUCCESS) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
     }
     printf("%c", top);
 
-    return ER_SUCCESS;
+    return throw_er(ER_SUCCESS, "ER: No error");
 }

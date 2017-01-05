@@ -15,6 +15,6 @@ typedef struct error_t {
 } error;
 
 const error throw_er(enum error_e code, const char *message);
-const char *print_error(error e);
+const char *print_error(error e); // I'm getting a monad vibe from this, this is a writer!
 
 #endif

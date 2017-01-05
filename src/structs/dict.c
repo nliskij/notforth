@@ -1,24 +1,3 @@
-/**
- * @file
- *
- * @section LICENSE
- *
- * This file is part of yaForth.
- *
- * yaForth is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Foobar is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 #include <stdlib.h>
 #include <string.h>
 #include "dict.h"
@@ -115,12 +94,12 @@ error grow_dict(dict_t *dict)
     elem_t *elem;
     error e;
 
-    if (e = init_dict(new_dict, dict->size * DICT_GROWTH))
+    if ((e = init_dict(new_dict, dict->size * DICT_GROWTH)).code)
         return e;
 
     for (size_t i = 0; i < dict->size; i++) {
         for (elem = dict->defs[i]; elem != 0; elem = elem->next) {
-            if (!(e = add_word(new_dict, elem->key, elem->words))) {
+            if (!(e = add_word(new_dict, elem->key, elem->words)).code) {
                 return e; // I might've misunderstood and put a bug here
             }
         }

@@ -11,7 +11,7 @@ const error throw_er(enum error_e code, const char *message)
 
 const char *print_error(error e)
 {
-    switch (e) {
+    switch (e.code) {
         case ER_SUCCESS:       return "ER_SUCCESS";
         case ER_MALLOC_FAIL:   return "ER_MALLOC_FAIL";
         case ER_INIT_ZERO_SZ:  return "ER_INIT_ZERO_SZ";
