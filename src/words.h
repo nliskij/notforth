@@ -4,7 +4,7 @@
 #include "structs/dict.h"
 #include "util/error.h"
 
-error def(char *line, dict_t *dict);
+error def(char **line_adr, dict_t *dict);
 error show_stack(stack_t *stack);
 error emit(stack_t *stack);
 error addw(stack_t *stack);

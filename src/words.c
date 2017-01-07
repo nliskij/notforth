@@ -97,6 +97,30 @@ error def(char **line_adr, dict_t *dict)
     return throw_er(ER_SUCCESS, "ER: No error");
 }
 
+error jmpw(char **line_adr, stack_t *stack)
+{
+    // just take the offset off the stack... (kill me)
+    int delta;
+    if (pop(stack, &delta).code != ER_SUCCESS) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+    // I foresee something going wrong here...
+    *line_adr += delta;
+ 
+    return throw_er(ER_SUCCESS, "ER: No error");
+}
+
+error ifw(char **line_adr, stack_t *stack)
+{
+    // remember to remove the null
+    int cond;
+    if (pop(stack, &cond).code != ER_SUCCESS) {
+        return throw_er(ER_OUT_OF_BOUNDS, "ER: Pop on empty stack");
+    }
+
+    int end = strstr(*line_adr, "end");
+}
+
 error show_stack(stack_t *stack)
 {
     printf(" <%zu> ", stklen(stack));
